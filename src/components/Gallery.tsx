@@ -1,48 +1,33 @@
-import { useState } from "react";
-import { X } from "lucide-react";
-
-const categories = ["All", "Wedding", "Stage", "Car", "Home", "Events"];
-
-const galleryImages = [
-  {
-    src: "https://images.unsplash.com/photo-1640355105827-2aa98e908a7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwc3RhZ2UlMjBkZWNvcmF0aW9ufGVufDF8fHx8MTc2MzAzNTQyMHww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Stage",
-    alt: "Wedding stage decoration"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1684243920725-956d93ff391a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwZmxvd2VyJTIwZGVjb3JhdGlvbnxlbnwxfHx8fDE3NjMwNDg2MTB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Wedding",
-    alt: "Wedding flower decoration"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1760110885805-273b5bf5e50b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmbG9yYWwlMjBjYXIlMjBkZWNvcmF0aW9ufGVufDF8fHx8MTc2MzA0ODYxMXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Car",
-    alt: "Floral car decoration"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1586452146807-c34b985549fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3ZWRkaW5nJTIwbWFuZGFwJTIwZGVjb3JhdGlvbnxlbnwxfHx8fDE3NjMwNDg2MTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Wedding",
-    alt: "Wedding mandap decoration"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1667858000261-3315395d754c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxlbGVnYW50JTIwZmxvcmFsJTIwYXJyYW5nZW1lbnR8ZW58MXx8fHwxNzYzMDQ4NjExfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Events",
-    alt: "Elegant floral arrangement"
-  },
-  {
-    src: "https://images.unsplash.com/photo-1672243691196-9b7f64cce1c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwaW5rJTIwcm9zZXMlMjBib3VxdWV0fGVufDF8fHx8MTc2MzAzNTE2Nnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    category: "Events",
-    alt: "Pink roses bouquet"
-  },
-];
+import { useState, useEffect } from "react";
+import { X, Loader2 } from "lucide-react";
+import { supabase, GalleryPhoto } from "../lib/supabase";
+import { Link } from "react-router-dom";
 
 export function Gallery() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+  const [loading, setLoading] = useState(true);
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
-  const filteredImages = selectedCategory === "All" 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === selectedCategory);
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  const fetchPhotos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("gallery_photos")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(6); // Only show latest 6 photos
+
+      if (error) throw error;
+      setPhotos(data || []);
+    } catch (error) {
+      console.error("Error fetching gallery:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <section className="py-20 px-4 bg-white">
@@ -57,52 +42,66 @@ export function Gallery() {
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-10">
             A glimpse of our beautiful creations
           </p>
-
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full transition-all duration-300 ${
-                  selectedCategory === category
-                    ? "bg-gradient-to-r from-[#FAD4E8] to-[#D4AF37] text-white shadow-lg scale-105"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
         </div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredImages.map((image, index) => (
-            <div
-              key={index}
-              className="group relative overflow-hidden rounded-2xl cursor-pointer aspect-square border-2 border-transparent hover:border-[#FAD4E8] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(250,212,232,0.4)]"
-              onClick={() => setLightboxImage(image.src)}
-              style={{
-                boxShadow: '0 8px 30px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,175,55,0.2)'
-              }}
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-4 left-4 right-4 text-white">
-                  <div className="text-xs bg-gradient-to-r from-[#FAD4E8] to-[#D4AF37] px-3 py-1.5 rounded-full inline-block mb-2 font-medium">
-                    {image.category}
+        {/* Loading State */}
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20">
+            <Loader2 className="w-12 h-12 animate-spin text-[#D4AF37] mb-4" />
+            <p className="text-gray-600">Loading gallery...</p>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && photos.length === 0 && (
+          <div className="text-center py-20">
+            <p className="text-gray-600 text-lg">No photos yet. Check back soon!</p>
+          </div>
+        )}
+
+        {/* Gallery Grid - Latest 6 Photos */}
+        {!loading && photos.length > 0 && (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              {photos.map((photo) => (
+              <div
+                key={photo.id}
+                className="group relative overflow-hidden rounded-2xl cursor-pointer aspect-square border-2 border-transparent hover:border-[#FAD4E8] transition-all duration-300 shadow-[0_8px_30px_rgba(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgba(250,212,232,0.4)]"
+                onClick={() => setLightboxImage(photo.image_url)}
+                style={{
+                  boxShadow: '0 8px 30px rgba(0,0,0,0.12), 0 0 0 1px rgba(212,175,55,0.2)'
+                }}
+              >
+                <img
+                  src={photo.image_url}
+                  alt={`${photo.category} decoration`}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4 text-white">
+                    <div className="text-xs bg-gradient-to-r from-[#FAD4E8] to-[#D4AF37] px-3 py-1.5 rounded-full inline-block mb-2 font-medium capitalize">
+                      {photo.category}
+                    </div>
                   </div>
-                  <div className="text-base font-medium">{image.alt}</div>
                 </div>
               </div>
+            ))}
             </div>
-          ))}
-        </div>
+
+            {/* View All Gallery Button */}
+            <div className="text-center">
+              <Link
+                to="/gallery"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#FAD4E8] to-[#D4AF37] text-white rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+              >
+                View All Gallery
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
+          </>
+        )}
 
         {/* Lightbox */}
         {lightboxImage && (

@@ -1,3 +1,4 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Hero } from "./components/Hero";
 import { About } from "./components/About";
 import { Services } from "./components/Services";
@@ -5,8 +6,10 @@ import { Gallery } from "./components/Gallery";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { WhatsAppButton } from "./components/WhatsAppButton";
+import AdminPanel from "./components/AdminPanel";
+import { FullGallery } from "./pages/FullGallery";
 
-export default function App() {
+function MainSite() {
   return (
     <div className="min-h-screen bg-white">
       <WhatsAppButton />
@@ -27,5 +30,23 @@ export default function App() {
       </div>
       <Footer />
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        {/* Main Website */}
+        <Route path="/" element={<MainSite />} />
+        
+        {/* Full Gallery Page */}
+        <Route path="/gallery" element={<FullGallery />} />
+        
+        {/* Admin Panel - Single Page */}
+        <Route path="/admin" element={<AdminPanel />} />
+        <Route path="/admin/*" element={<AdminPanel />} />
+      </Routes>
+    </Router>
   );
 }
