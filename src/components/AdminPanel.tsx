@@ -643,13 +643,16 @@ export default function AdminPanel() {
                   <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center">
                     <button
                       onClick={() => handleDeleteClick(photo)}
-                      className="opacity-0 group-hover:opacity-100 bg-red-600 text-white p-3 rounded-full hover:bg-red-700 transition-all transform scale-90 group-hover:scale-100 shadow-xl"
+                      className="opacity-0 group-hover:opacity-100 bg-red-700 text-white p-3 rounded-full hover:bg-red-800 transition-all transform scale-90 group-hover:scale-100 shadow-xl"
                     >
-                      <Trash2 className="w-7 h-7 text-red-900" />
+                      <Trash2 className="w-7 h-7" strokeWidth={2.5} style={{ stroke: '#000' }} />
                     </button>
                   </div>
+                  <div className="absolute top-2 left-2 bg-black/80 px-2 py-1 rounded-md">
+                    <p className="text-white text-xs font-bold">{photo.category}</p>
+                  </div>
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-black text-xs font-bold truncate">{photo.file_name}</p>
+                    <p className="text-white text-xs font-bold truncate">{photo.file_name}</p>
                   </div>
                 </div>
               ))}
