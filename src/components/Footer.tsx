@@ -5,7 +5,7 @@ export function Footer() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -15,7 +15,14 @@ export function Footer() {
       <div className="absolute inset-0 opacity-10">
         <svg className="w-full h-full" viewBox="0 0 400 200">
           <defs>
-            <pattern id="floral-pattern" x="0" y="0" width="80" height="80" patternUnits="userSpaceOnUse">
+            <pattern
+              id="floral-pattern"
+              x="0"
+              y="0"
+              width="80"
+              height="80"
+              patternUnits="userSpaceOnUse"
+            >
               <circle cx="20" cy="20" r="15" fill="#FFFFFF" />
               <circle cx="60" cy="20" r="10" fill="#FFFFFF" />
               <circle cx="20" cy="60" r="12" fill="#FFFFFF" />
@@ -40,7 +47,8 @@ export function Footer() {
               </div>
             </div>
             <p className="text-[#1A1A1A]/80 leading-relaxed">
-              Making your special moments unforgettable with beautiful flowers and elegant decorations.
+              Making your special moments unforgettable with beautiful flowers
+              and elegant decorations.
             </p>
           </div>
 
@@ -49,22 +57,34 @@ export function Footer() {
             <h4 className="text-lg mb-4 font-playfair">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <button onClick={() => scrollToSection('home')} className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors">
+                <button
+                  onClick={() => scrollToSection("home")}
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors"
+                >
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('services')} className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors">
+                <button
+                  onClick={() => scrollToSection("services")}
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors"
+                >
                   Services
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('gallery')} className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors">
+                <button
+                  onClick={() => scrollToSection("gallery")}
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors"
+                >
                   Gallery
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('contact')} className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors">
+                <button
+                  onClick={() => scrollToSection("contact")}
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors"
+                >
                   Contact
                 </button>
               </li>
@@ -90,7 +110,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <MapPin className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <a 
+                <a
                   href="https://www.google.com/maps/search/?api=1&query=Near+Mahadev+Choraha+Dibai+Bulandshahr+203393"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -99,23 +119,32 @@ export function Footer() {
                   Near Mahadev Choraha, Dibai, Bulandshahr - 203393
                 </a>
               </li>
+
               <li className="flex items-center gap-2">
                 <Phone className="w-5 h-5 flex-shrink-0" />
-                <a href="tel:+919528371089" className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors text-sm">
+                <a
+                  href="tel:+919528371089"
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors text-sm"
+                >
                   +91 95283 71089
                 </a>
               </li>
+
               <li className="flex items-center gap-2">
                 <Mail className="w-5 h-5 flex-shrink-0" />
-                <a href="mailto:contact@jagdishflowers.com" className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors text-sm">
+                <a
+                  href="mailto:contact@jagdishflowers.com"
+                  className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors text-sm"
+                >
                   contact@jagdishflowers.com
                 </a>
               </li>
+
               <li className="flex items-center gap-2">
                 <MessageCircle className="w-5 h-5 flex-shrink-0" />
-                <a 
-                  href="https://wa.me/919528371089" 
-                  target="_blank" 
+                <a
+                  href="https://wa.me/919528371089"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#1A1A1A]/80 hover:text-[#1A1A1A] transition-colors text-sm"
                 >
@@ -130,12 +159,26 @@ export function Footer() {
         <div className="h-px bg-[#1A1A1A]/20 mb-8" />
 
         {/* Copyright */}
-        <div className="text-center">
+        <div className="text-center space-y-2">
           <p className="text-[#1A1A1A]/80">
-            © {new Date().getFullYear()} Jagdish Flowers & Decorations. All Rights Reserved.
+            © {new Date().getFullYear()} Jagdish Flowers & Decorations. All
+            Rights Reserved.
           </p>
-          <p className="text-sm text-[#1A1A1A]/60 mt-2">
+
+          <p className="text-sm text-[#1A1A1A]/60">
             Crafted with love for beautiful celebrations
+          </p>
+
+          <p className="text-sm text-[#1A1A1A]/70">
+            Built and developed by{" "}
+            <a
+              href="https://polygonshift.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-[#1A1A1A] hover:text-[#8B5A2B] underline underline-offset-4 transition-colors"
+            >
+              Polygon Shift
+            </a>
           </p>
         </div>
       </div>
